@@ -65,42 +65,48 @@
     </section>
 
 
-    <!-- ======================================================
-         郵件篩選區塊
-         ====================================================== -->
+   <!-- ======================================================
+     郵件篩選區塊
+     ====================================================== -->
     <section class="form-card">
-
+    
       <div class="section-header">
         <h2>郵件篩選</h2>
         <span>選擇額外的 Gmail 條件</span>
       </div>
-
-      <!-- ===== 未讀 ===== -->
-      <label class="option-row">
-        <span class="option-text">
+    
+      <!-- ===== 只看未讀 ===== -->
+      <div class="option-row">
+    
+        <div class="option-text">
           <strong>只看未讀信</strong>
           <small>只搜尋尚未閱讀的郵件</small>
-        </span>
-
-        <span class="check-box">
+        </div>
+    
+        <!-- ===== 未讀撥桿 ===== -->
+        <label class="switch">
           <input type="checkbox" id="unread">
-          <span class="check-ui"></span>
-        </span>
-      </label>
-
-      <!-- ===== 附件 ===== -->
-      <label class="option-row">
-        <span class="option-text">
+          <span class="slider"></span>
+        </label>
+    
+      </div>
+    
+      <!-- ===== 只看附件 ===== -->
+      <div class="option-row">
+    
+        <div class="option-text">
           <strong>只看有附件的信件</strong>
           <small>只搜尋包含附件的郵件</small>
-        </span>
-
-        <span class="check-box">
+        </div>
+    
+        <!-- ===== 附件撥桿 ===== -->
+        <label class="switch">
           <input type="checkbox" id="attachment">
-          <span class="check-ui"></span>
-        </span>
-      </label>
-
+          <span class="slider"></span>
+        </label>
+    
+      </div>
+    
     </section>
 
 
