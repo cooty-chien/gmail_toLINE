@@ -25,19 +25,27 @@ function changeDateType() {
 
 function searchGmail() {
   const query = buildQuery();
+
   if (!query) {
     showStatus('請至少輸入一個查詢條件');
     return;
   }
+
   if (!userId) {
     showStatus('尚未取得 LINE User ID');
     return;
   }
 
+  const useAI = document.getElementById('useAI').checked;
   const button = document.getElementById('searchBtn');
+
   button.disabled = true;
-  showStatus('正在查詢 Gmail...');
-  document.getElementById('queryPreview').textContent = 'Gmail Query：' + query;
+
+  showStatus(useAI ? '正在查詢 Gmail 並產生 AI 摘要...' : '正在查詢 Gmail...');
+
+  document.getElementById('queryPreview').textContent =
+    'Gmail Query：' + query +
+    (useAI ? '｜AI 摘要：開啟' : '｜AI 摘要：關閉');
 
   fetch(CONFIG.GAS_URL, {
     method: 'POST',
@@ -46,7 +54,8 @@ function searchGmail() {
     body: JSON.stringify({
       action: 'searchGmail',
       query: query,
-      userId: userId
+      userId: userId,
+      useAI: useAI
     })
   })
   .then(function() {
