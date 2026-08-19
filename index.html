@@ -14,8 +14,9 @@
     <div class="section">
       <label>日期</label>
       <select id="dateType" onchange="changeDateType()">
+        <option value="today">今天</option>
+        <option value="yesterday">昨天</option>
         <option value="7">近 7 天</option>
-        <option value="1">今天</option>
         <option value="30">近 30 天</option>
         <option value="custom">自訂日期</option>
       </select>
@@ -29,12 +30,12 @@
     </div>
 
     <div class="section checkbox">
-      <label><input type="checkbox" id="unread"> 只查未讀信</label>
+      <label><input type="checkbox" id="unread"> 只看未讀信</label>
     </div>
 
     <div class="section">
       <label>寄件者</label>
-      <input type="text" id="from" placeholder="例如：google.com">
+      <input type="text" id="from" placeholder="例如：google.com 或 xxx@gmail.com">
     </div>
 
     <div class="section">
