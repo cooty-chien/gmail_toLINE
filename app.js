@@ -3,6 +3,8 @@
 const LIFF_ID = '2011164374-MnsCQq2R';
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbyOX1HfJGXMBQWWsNBes0WmZIgxiofSD2FwFyMI9ccshyn1gnXMa8kT0VRFsx8VgB-d/exec';
 
+let userId = '';
+
 window.onload = async function() {
   try {
     await liff.init({ liffId: LIFF_ID });
@@ -15,6 +17,7 @@ window.onload = async function() {
     showStatus('已連線，可以開始查詢');
   } catch (error) {
     showStatus('LIFF 初始化失敗：' + JSON.stringify(error));
+    console.error(error);
   }
 };
 
@@ -28,6 +31,10 @@ function searchGmail() {
     showStatus('請至少輸入一個查詢條件');
     return;
   }
+  if (!userId) {
+    showStatus('尚未取得 LINE User ID');
+    return;
+  }
 
   const button = document.getElementById('searchBtn');
   button.disabled = true;
@@ -38,15 +45,16 @@ function searchGmail() {
     method: 'POST',
     mode: 'no-cors',
     headers: {'Content-Type': 'text/plain'},
-    body: JSON.stringify({action: 'searchGmail', query: query})
-  })
-  .then(function() {
+    body: JSON.stringify({
+      action: 'searchGmail',
+      query: query,
+      userId: userId
+    })
+  }).then(function() {
     showStatus('查詢已送出，請稍候...');
-  })
-  .catch(function(error) {
+  }).catch(function(error) {
     showStatus('查詢失敗：' + error.message);
-  })
-  .finally(function() {
+  }).finally(function() {
     button.disabled = false;
   });
 }
