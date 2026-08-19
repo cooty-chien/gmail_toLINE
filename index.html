@@ -1,26 +1,58 @@
+<!-- ===== index.html ===== -->
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Gmail 查詢</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <h2>📧 Gmail 查詢</h2>
-  <p id="status">LIFF 初始化中...</p>
+  <div class="container">
+    <h2>📧 Gmail 查詢</h2>
+
+    <div class="section">
+      <label>日期</label>
+      <select id="dateType" onchange="changeDateType()">
+        <option value="7">近 7 天</option>
+        <option value="1">今天</option>
+        <option value="30">近 30 天</option>
+        <option value="custom">自訂日期</option>
+      </select>
+    </div>
+
+    <div id="customDate" class="section hidden">
+      <label>開始日期</label>
+      <input type="date" id="startDate">
+      <label>結束日期</label>
+      <input type="date" id="endDate">
+    </div>
+
+    <div class="section checkbox">
+      <label><input type="checkbox" id="unread"> 只查未讀信</label>
+    </div>
+
+    <div class="section">
+      <label>寄件者</label>
+      <input type="text" id="from" placeholder="例如：google.com">
+    </div>
+
+    <div class="section">
+      <label>主旨關鍵字</label>
+      <input type="text" id="subject" placeholder="例如：訂單">
+    </div>
+
+    <div class="section">
+      <label>內容關鍵字</label>
+      <input type="text" id="keyword" placeholder="例如：付款">
+    </div>
+
+    <button id="searchBtn" onclick="searchGmail()">🔍 開始查詢</button>
+    <div id="status"></div>
+    <div id="queryPreview"></div>
+  </div>
 
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-  <script>
-    const LIFF_ID = '2011164374-MnsCQq2R';
-
-    liff.init({ liffId: LIFF_ID })
-      .then(function() {
-        document.getElementById('status').textContent = 'LIFF 初始化成功';
-      })
-      .catch(function(error) {
-        document.getElementById('status').textContent = 'LIFF 初始化失敗：' + JSON.stringify(error);
-        console.error(error);
-      });
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
