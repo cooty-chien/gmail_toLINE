@@ -1,6 +1,6 @@
 // ===== app.js =====
 
-const LIFF_ID = '2001XXXX';
+const LIFF_ID = '2011164374-MnsCQq2R';
 let userId = '';
 
 window.onload = async function() {
