@@ -4,68 +4,208 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gmail 查詢</title>
+  <title>Gmail AI 查詢</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h2>📧 Gmail 查詢</h2>
-    <div id="status" class="status">LIFF 初始化中...</div>
 
-    <div class="section">
-      <label>日期</label>
-      <select id="dateType" onchange="changeDateType()">
-        <option value="today">今天</option>
-        <option value="yesterday">昨天</option>
-        <option value="7">近 7 天</option>
-        <option value="30">近 30 天</option>
-        <option value="custom">自訂日期</option>
-      </select>
+  <!-- ===== 頁面主要容器 ===== -->
+  <main class="container">
+
+    <!-- ===== 頁面標題區 ===== -->
+    <header class="page-header">
+      <div class="header-icon">📬</div>
+      <div>
+        <h1>Gmail 查詢</h1>
+        <p>快速搜尋信件，並將結果傳送到 LINE</p>
+      </div>
+    </header>
+
+    <!-- ===== LIFF / 查詢狀態 ===== -->
+    <div id="status" class="status status-loading" aria-live="polite">
+      <span class="status-icon">⏳</span>
+      <span class="status-text">LIFF 初始化中...</span>
     </div>
 
-    <div id="customDate" class="section hidden">
-      <label>開始日期</label>
-      <input type="date" id="startDate">
-      <label>結束日期</label>
-      <input type="date" id="endDate">
-    </div>
+    <!-- ===== 查詢條件區 ===== -->
+    <section class="card">
 
-    <div class="section checkbox">
-      <label><input type="checkbox" id="unread"> 只看未讀信</label>
-    </div>
+      <div class="card-title">
+        <span class="title-icon">🔎</span>
+        <div>
+          <h2>查詢條件</h2>
+          <p>設定你要搜尋的 Gmail 信件</p>
+        </div>
+      </div>
 
-    <div class="section checkbox">
-      <label><input type="checkbox" id="attachment"> 只看有附件的信件</label>
-    </div>
+      <!-- ===== 日期 ===== -->
+      <div class="form-group">
+        <label for="dateType">日期</label>
+        <select id="dateType" onchange="changeDateType()">
+          <option value="today">今天</option>
+          <option value="yesterday">昨天</option>
+          <option value="7">近 7 天</option>
+          <option value="30">近 30 天</option>
+          <option value="custom">自訂日期</option>
+        </select>
+      </div>
 
-    <div class="section">
-      <label>寄件者</label>
-      <input type="text" id="from" placeholder="例如：google.com 或 xxx@gmail.com">
-    </div>
+      <!-- ===== 自訂日期 ===== -->
+      <div id="customDate" class="custom-date hidden">
 
-    <div class="section">
-      <label>主旨關鍵字</label>
-      <input type="text" id="subject" placeholder="例如：訂單">
-    </div>
+        <div class="form-group">
+          <label for="startDate">開始日期</label>
+          <input type="date" id="startDate">
+        </div>
 
-    <div class="section">
-      <label>內容關鍵字</label>
-      <input type="text" id="keyword" placeholder="例如：付款">
-    </div>
-    
-    <div class="section checkbox">
-      <label>
-        <input type="checkbox" id="useAI">
-        🤖 使用 AI 摘要
-      </label>
-    </div>
+        <div class="date-arrow">→</div>
 
-    <button id="searchBtn" onclick="searchGmail()">🔍 開始查詢</button>
-    <div id="queryPreview"></div>
-  </div>
+        <div class="form-group">
+          <label for="endDate">結束日期</label>
+          <input type="date" id="endDate">
+        </div>
 
+      </div>
+
+      <!-- ===== 快速篩選 ===== -->
+      <div class="filter-grid">
+
+        <label class="check-card">
+          <input type="checkbox" id="unread">
+          <span class="check-content">
+            <span class="check-icon">📩</span>
+            <span>
+              <strong>只看未讀</strong>
+              <small>只搜尋尚未閱讀的信件</small>
+            </span>
+          </span>
+          <span class="check-mark">✓</span>
+        </label>
+
+        <label class="check-card">
+          <input type="checkbox" id="attachment">
+          <span class="check-content">
+            <span class="check-icon">📎</span>
+            <span>
+              <strong>只看附件</strong>
+              <small>只搜尋含有附件的信件</small>
+            </span>
+          </span>
+          <span class="check-mark">✓</span>
+        </label>
+
+      </div>
+
+      <!-- ===== 寄件者 ===== -->
+      <div class="form-group">
+        <label for="from">寄件者</label>
+        <div class="input-wrap">
+          <span>👤</span>
+          <input
+            type="text"
+            id="from"
+            placeholder="例如：google.com 或 xxx@gmail.com"
+          >
+        </div>
+      </div>
+
+      <!-- ===== 主旨 ===== -->
+      <div class="form-group">
+        <label for="subject">主旨關鍵字</label>
+        <div class="input-wrap">
+          <span>🏷️</span>
+          <input
+            type="text"
+            id="subject"
+            placeholder="例如：訂單"
+          >
+        </div>
+      </div>
+
+      <!-- ===== 內容關鍵字 ===== -->
+      <div class="form-group">
+        <label for="keyword">內容關鍵字</label>
+        <div class="input-wrap">
+          <span>📝</span>
+          <input
+            type="text"
+            id="keyword"
+            placeholder="例如：付款"
+          >
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ===== AI 摘要設定 ===== -->
+    <section class="ai-card">
+
+      <div class="ai-main">
+
+        <div class="ai-icon">🤖</div>
+
+        <div class="ai-info">
+          <h2>AI 智慧摘要</h2>
+          <p>
+            使用 Gemini 整理郵件，並以不同 AI 人格產生故事化摘要
+          </p>
+        </div>
+
+        <!-- ===== AI 開關 ===== -->
+        <label class="switch">
+          <input type="checkbox" id="useAI">
+          <span class="slider"></span>
+        </label>
+
+      </div>
+
+      <!-- ===== AI 功能說明 ===== -->
+      <div class="ai-note">
+        ✨ 每次查詢會隨機使用不同 AI 人格，讓每次摘要都有不同風格。
+      </div>
+
+    </section>
+
+    <!-- ===== 查詢按鈕 ===== -->
+    <button
+      id="searchBtn"
+      class="search-btn"
+      onclick="searchGmail()"
+      disabled
+    >
+      <span>🔍</span>
+      <span>開始查詢</span>
+    </button>
+
+    <!-- ===== Query 預覽 ===== -->
+    <section id="queryPanel" class="query-panel hidden">
+
+      <div class="query-title">
+        <span>⚙️</span>
+        <span>實際 Gmail Query</span>
+      </div>
+
+      <div id="queryPreview" class="query-text"></div>
+
+    </section>
+
+    <!-- ===== 頁面底部提示 ===== -->
+    <footer class="page-footer">
+      <span>📬 Gmail</span>
+      <span>•</span>
+      <span>LINE AI Assistant</span>
+    </footer>
+
+  </main>
+
+  <!-- ===== LINE LIFF SDK ===== -->
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+  <!-- ===== 專案設定 ===== -->
   <script src="config.js"></script>
+
+  <!-- ===== 頁面 JavaScript ===== -->
   <script src="app.js"></script>
+
 </body>
 </html>
