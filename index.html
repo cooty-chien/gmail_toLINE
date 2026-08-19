@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gmail AI 查詢</title>
+  <title>Gmail 查詢</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,35 +12,30 @@
   <!-- ===== 頁面主要容器 ===== -->
   <main class="container">
 
-    <!-- ===== 頁面標題區 ===== -->
+    <!-- ===== 頁面標題 ===== -->
     <header class="page-header">
-      <div class="header-icon">📬</div>
       <div>
         <h1>Gmail 查詢</h1>
-        <p>快速搜尋信件，並將結果傳送到 LINE</p>
+        <p>搜尋 Gmail 信件並將結果傳送到 LINE</p>
       </div>
     </header>
 
-    <!-- ===== LIFF / 查詢狀態 ===== -->
+    <!-- ===== LIFF 連線狀態 ===== -->
     <div id="status" class="status status-loading" aria-live="polite">
-      <span class="status-icon">⏳</span>
       <span class="status-text">LIFF 初始化中...</span>
     </div>
 
-    <!-- ===== 查詢條件區 ===== -->
-    <section class="card">
+    <!-- ======================================================
+         日期區塊
+         ====================================================== -->
+    <section class="form-card">
 
-      <div class="card-title">
-        <span class="title-icon">🔎</span>
-        <div>
-          <h2>查詢條件</h2>
-          <p>設定你要搜尋的 Gmail 信件</p>
-        </div>
+      <div class="section-header">
+        <h2>日期</h2>
+        <span>查詢信件時間範圍</span>
       </div>
 
-      <!-- ===== 日期 ===== -->
       <div class="form-group">
-        <label for="dateType">日期</label>
         <select id="dateType" onchange="changeDateType()">
           <option value="today">今天</option>
           <option value="yesterday">昨天</option>
@@ -58,7 +53,7 @@
           <input type="date" id="startDate">
         </div>
 
-        <div class="date-arrow">→</div>
+        <div class="date-separator">至</div>
 
         <div class="form-group">
           <label for="endDate">結束日期</label>
@@ -67,88 +62,125 @@
 
       </div>
 
-      <!-- ===== 快速篩選 ===== -->
-      <div class="filter-grid">
+    </section>
 
-        <label class="check-card">
+
+    <!-- ======================================================
+         郵件篩選區塊
+         ====================================================== -->
+    <section class="form-card">
+
+      <div class="section-header">
+        <h2>郵件篩選</h2>
+        <span>選擇額外的 Gmail 條件</span>
+      </div>
+
+      <!-- ===== 未讀 ===== -->
+      <label class="option-row">
+        <span class="option-text">
+          <strong>只看未讀信</strong>
+          <small>只搜尋尚未閱讀的郵件</small>
+        </span>
+
+        <span class="check-box">
           <input type="checkbox" id="unread">
-          <span class="check-content">
-            <span class="check-icon">📩</span>
-            <span>
-              <strong>只看未讀</strong>
-              <small>只搜尋尚未閱讀的信件</small>
-            </span>
-          </span>
-          <span class="check-mark">✓</span>
-        </label>
+          <span class="check-ui"></span>
+        </span>
+      </label>
 
-        <label class="check-card">
+      <!-- ===== 附件 ===== -->
+      <label class="option-row">
+        <span class="option-text">
+          <strong>只看有附件的信件</strong>
+          <small>只搜尋包含附件的郵件</small>
+        </span>
+
+        <span class="check-box">
           <input type="checkbox" id="attachment">
-          <span class="check-content">
-            <span class="check-icon">📎</span>
-            <span>
-              <strong>只看附件</strong>
-              <small>只搜尋含有附件的信件</small>
-            </span>
-          </span>
-          <span class="check-mark">✓</span>
-        </label>
+          <span class="check-ui"></span>
+        </span>
+      </label>
 
+    </section>
+
+
+    <!-- ======================================================
+         寄件者區塊
+         ====================================================== -->
+    <section class="form-card">
+
+      <div class="section-header">
+        <h2>寄件者</h2>
+        <span>指定郵件寄件者</span>
       </div>
 
-      <!-- ===== 寄件者 ===== -->
       <div class="form-group">
-        <label for="from">寄件者</label>
-        <div class="input-wrap">
-          <span>👤</span>
-          <input
-            type="text"
-            id="from"
-            placeholder="例如：google.com 或 xxx@gmail.com"
-          >
-        </div>
-      </div>
-
-      <!-- ===== 主旨 ===== -->
-      <div class="form-group">
-        <label for="subject">主旨關鍵字</label>
-        <div class="input-wrap">
-          <span>🏷️</span>
-          <input
-            type="text"
-            id="subject"
-            placeholder="例如：訂單"
-          >
-        </div>
-      </div>
-
-      <!-- ===== 內容關鍵字 ===== -->
-      <div class="form-group">
-        <label for="keyword">內容關鍵字</label>
-        <div class="input-wrap">
-          <span>📝</span>
-          <input
-            type="text"
-            id="keyword"
-            placeholder="例如：付款"
-          >
-        </div>
+        <input
+          type="text"
+          id="from"
+          placeholder="例如：google.com 或 xxx@gmail.com"
+        >
       </div>
 
     </section>
 
-    <!-- ===== AI 摘要設定 ===== -->
+
+    <!-- ======================================================
+         主旨區塊
+         ====================================================== -->
+    <section class="form-card">
+
+      <div class="section-header">
+        <h2>主旨關鍵字</h2>
+        <span>搜尋郵件主旨</span>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="text"
+          id="subject"
+          placeholder="例如：訂單"
+        >
+      </div>
+
+    </section>
+
+
+    <!-- ======================================================
+         內容關鍵字區塊
+         ====================================================== -->
+    <section class="form-card">
+
+      <div class="section-header">
+        <h2>內容關鍵字</h2>
+        <span>搜尋郵件內文</span>
+      </div>
+
+      <div class="form-group">
+        <input
+          type="text"
+          id="keyword"
+          placeholder="例如：付款"
+        >
+      </div>
+
+    </section>
+
+
+    <!-- ======================================================
+         AI 摘要區塊
+         ====================================================== -->
     <section class="ai-card">
 
-      <div class="ai-main">
+      <div class="ai-header">
 
-        <div class="ai-icon">🤖</div>
+        <div class="ai-title">
+          <span class="ai-label">AI</span>
 
-        <div class="ai-info">
-          <h2>AI 智慧摘要</h2>
-          <p>
-            使用 Gemini 整理郵件，並以不同 AI 人格產生故事化摘要
-          </p>
+          <div>
+            <h2>AI 智慧摘要</h2>
+            <p>使用 Gemini 整理郵件內容</p>
+          </div>
         </div>
 
         <!-- ===== AI 開關 ===== -->
@@ -159,44 +191,48 @@
 
       </div>
 
-      <!-- ===== AI 功能說明 ===== -->
-      <div class="ai-note">
-        ✨ 每次查詢會隨機使用不同 AI 人格，讓每次摘要都有不同風格。
+      <div class="ai-description">
+        每次查詢會隨機使用不同 AI 人格，產生不同風格的摘要。
       </div>
 
     </section>
 
-    <!-- ===== 查詢按鈕 ===== -->
+
+    <!-- ======================================================
+         查詢按鈕
+         ====================================================== -->
     <button
       id="searchBtn"
       class="search-btn"
       onclick="searchGmail()"
       disabled
     >
-      <span>🔍</span>
       <span>開始查詢</span>
     </button>
 
-    <!-- ===== Query 預覽 ===== -->
+
+    <!-- ======================================================
+         Gmail Query 預覽
+         ====================================================== -->
     <section id="queryPanel" class="query-panel hidden">
 
-      <div class="query-title">
-        <span>⚙️</span>
-        <span>實際 Gmail Query</span>
+      <div class="query-header">
+        <h2>Gmail Query</h2>
+        <span>實際送出的搜尋條件</span>
       </div>
 
       <div id="queryPreview" class="query-text"></div>
 
     </section>
 
-    <!-- ===== 頁面底部提示 ===== -->
+
+    <!-- ===== 頁尾 ===== -->
     <footer class="page-footer">
-      <span>📬 Gmail</span>
-      <span>•</span>
-      <span>LINE AI Assistant</span>
+      Gmail AI Assistant
     </footer>
 
   </main>
+
 
   <!-- ===== LINE LIFF SDK ===== -->
   <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
