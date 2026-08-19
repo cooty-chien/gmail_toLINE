@@ -1,7 +1,7 @@
 // ===== app.js =====
 
 const LIFF_ID = '2011164374-MnsCQq2R';
-let userId = '';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbyOX1HfJGXMBQWWsNBes0WmZIgxiofSD2FwFyMI9ccshyn1gnXMa8kT0VRFsx8VgB-d/exec';
 
 window.onload = async function() {
   try {
@@ -12,9 +12,9 @@ window.onload = async function() {
     }
     const profile = await liff.getProfile();
     userId = profile.userId;
-    document.getElementById('status').textContent = '已連線，可以開始查詢';
+    showStatus('已連線，可以開始查詢');
   } catch (error) {
-    document.getElementById('status').textContent = 'LIFF 初始化失敗：' + JSON.stringify(error);
+    showStatus('LIFF 初始化失敗：' + JSON.stringify(error));
   }
 };
 
@@ -28,8 +28,27 @@ function searchGmail() {
     showStatus('請至少輸入一個查詢條件');
     return;
   }
+
+  const button = document.getElementById('searchBtn');
+  button.disabled = true;
+  showStatus('正在查詢 Gmail...');
   document.getElementById('queryPreview').textContent = 'Gmail Query：' + query;
-  showStatus('查詢條件已準備完成');
+
+  fetch(GAS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'text/plain'},
+    body: JSON.stringify({action: 'searchGmail', query: query})
+  })
+  .then(function() {
+    showStatus('查詢已送出，請稍候...');
+  })
+  .catch(function(error) {
+    showStatus('查詢失敗：' + error.message);
+  })
+  .finally(function() {
+    button.disabled = false;
+  });
 }
 
 function buildQuery() {
