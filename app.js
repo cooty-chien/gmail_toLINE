@@ -41,7 +41,9 @@ function searchGmail() {
 
   button.disabled = true;
 
-  showStatus(useAI ? '正在查詢 Gmail 並產生 AI 摘要...' : '正在查詢 Gmail...');
+  showStatus(useAI
+    ? '⏳ 正在查詢 Gmail 並產生 AI 摘要...'
+    : '⏳ 正在查詢 Gmail...');
 
   document.getElementById('queryPreview').textContent =
     'Gmail Query：' + query +
@@ -59,13 +61,20 @@ function searchGmail() {
     })
   })
   .then(function() {
-    showStatus('查詢已送出，請稍候...');
+    showStatus('⏳ 查詢已送出，正在整理結果...');
+    return new Promise(function(resolve) {
+      setTimeout(resolve, 3000);
+    });
+  })
+  .then(function() {
+    showStatus('✅ 查詢完成！請到 LINE 查看查詢結果。');
   })
   .catch(function(error) {
-    showStatus('查詢失敗：' + error.message);
+    showStatus('❌ 查詢送出失敗：' + error.message);
   })
   .finally(function() {
     button.disabled = false;
+    button.textContent = '🔍 再次查詢';
   });
 }
 
