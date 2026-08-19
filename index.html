@@ -10,7 +10,6 @@
 <body>
   <div class="container">
     <h2>📧 Gmail 查詢</h2>
-
     <div id="status" class="status">LIFF 初始化中...</div>
 
     <div class="section">
@@ -32,10 +31,11 @@
     </div>
 
     <div class="section checkbox">
-      <label>
-        <input type="checkbox" id="unread">
-        只看未讀信
-      </label>
+      <label><input type="checkbox" id="unread"> 只看未讀信</label>
+    </div>
+
+    <div class="section checkbox">
+      <label><input type="checkbox" id="attachment"> 只看有附件的信件</label>
     </div>
 
     <div class="section">
@@ -54,7 +54,6 @@
     </div>
 
     <button id="searchBtn" onclick="searchGmail()">🔍 開始查詢</button>
-
     <div id="queryPreview"></div>
   </div>
 
