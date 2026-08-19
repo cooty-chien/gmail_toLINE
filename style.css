@@ -181,7 +181,8 @@ input::placeholder {
 
 
 /* ==========================================================
-   選項元件
+   郵件篩選選項
+   每個選項獨立一列
    ========================================================== */
 
 .option-row {
@@ -194,20 +195,17 @@ input::placeholder {
   border: 1px solid #e1e6e9;
   border-radius: 10px;
   background: #fafbfc;
-  cursor: pointer;
-  transition: all 0.2s ease;
 }
 
 .option-row:last-child {
   margin-bottom: 0;
 }
 
-.option-row:hover {
-  border-color: #c5d1d8;
-}
+/* ===== 選項文字 ===== */
 
 .option-text {
   min-width: 0;
+  padding-right: 12px;
 }
 
 .option-text strong {
@@ -330,7 +328,8 @@ input::placeholder {
 
 
 /* ==========================================================
-   AI Switch
+   通用撥桿
+   AI、未讀、附件共用
    ========================================================== */
 
 .switch {
