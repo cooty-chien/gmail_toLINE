@@ -5,12 +5,10 @@ let userId = '';
 window.onload = async function() {
   try {
     await liff.init({liffId: CONFIG.LIFF_ID});
-
     if (!liff.isLoggedIn()) {
       liff.login();
       return;
     }
-
     const profile = await liff.getProfile();
     userId = profile.userId;
     showStatus('已連線，可以開始查詢');
@@ -27,12 +25,10 @@ function changeDateType() {
 
 function searchGmail() {
   const query = buildQuery();
-
   if (!query) {
     showStatus('請至少輸入一個查詢條件');
     return;
   }
-
   if (!userId) {
     showStatus('尚未取得 LINE User ID');
     return;
@@ -40,7 +36,6 @@ function searchGmail() {
 
   const button = document.getElementById('searchBtn');
   button.disabled = true;
-
   showStatus('正在查詢 Gmail...');
   document.getElementById('queryPreview').textContent = 'Gmail Query：' + query;
 
@@ -69,6 +64,7 @@ function buildQuery() {
   const parts = [];
   const dateType = document.getElementById('dateType').value;
   const unread = document.getElementById('unread').checked;
+  const attachment = document.getElementById('attachment').checked;
   const from = document.getElementById('from').value.trim();
   const subject = document.getElementById('subject').value.trim();
   const keyword = document.getElementById('keyword').value.trim();
@@ -90,11 +86,7 @@ function buildQuery() {
   } else if (dateType === 'custom') {
     const start = document.getElementById('startDate').value;
     const end = document.getElementById('endDate').value;
-
-    if (start) {
-      parts.push('after:' + start.replace(/-/g, '/'));
-    }
-
+    if (start) parts.push('after:' + start.replace(/-/g, '/'));
     if (end) {
       const endDate = new Date(end + 'T00:00:00');
       endDate.setDate(endDate.getDate() + 1);
@@ -103,6 +95,7 @@ function buildQuery() {
   }
 
   if (unread) parts.push('is:unread');
+  if (attachment) parts.push('has:attachment');
   if (from) parts.push('from:' + from);
   if (subject) parts.push('subject:' + subject);
   if (keyword) parts.push(keyword);
