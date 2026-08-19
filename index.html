@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Gmail 查詢</title>
+</head>
+<body>
+  <h2>📧 Gmail 查詢</h2>
+  <p id="status">LIFF 初始化中...</p>
+
+  <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+  <script>
+    const LIFF_ID = '2011164374-MnsCQq2R';
+
+    liff.init({ liffId: LIFF_ID })
+      .then(function() {
+        document.getElementById('status').textContent = 'LIFF 初始化成功';
+      })
+      .catch(function(error) {
+        document.getElementById('status').textContent = 'LIFF 初始化失敗：' + JSON.stringify(error);
+        console.error(error);
+      });
+  </script>
+</body>
+</html>
